@@ -10,7 +10,7 @@ Vou deixar o máximo de links e artigos que usei para estudar para disseminar o 
 
 ## Tabela de conteúdos
 * [Tecnologias utilizadas](#tecnologias-utilizadas)
-* [Premisas do software](#premisas-de-software)
+* [Premisas do software](#premisas-do-software)
 * [Conceito e arquitetura](#conceito-e-arquitetura)
 
 ## Tecnologias utilizadas
@@ -48,9 +48,18 @@ armazenados em websites"*.
 
 Então, precisamos de um programa que seja capaz de olhar a web e responder ao usuário de acordo com o que ele pedir. Então
 que tal quando o usuário escrever o que ele deseja, fizermos um [crawling](https://en.wikipedia.org/wiki/Web_crawler) pela
-web e devolvermos a busca? De acordo com o site (Internet Live Stats)[https://www.internetlivestats.com/] no momento que este
-README.md foi escrito tinha 1,770,213,201 sites na web. Esperar resposta da rede para um número tão grande de sites e
-processar tanto texto parece inviável para um tempo de resposta curto normalmente exigido. Uma tarefa que ocupa bem menos
-tempo e mesmo assim consegue varrer grandes volumes de dados é uma query de banco de dados. Se já houvesse uma base de dados
-com os textos das páginas web num banco, seria moleza devolver uma resposta rápida ao usuário.
-missão é passear na web, 
+web e devolvermos a busca? De acordo com o site [Internet Live Stats](https://www.internetlivestats.com/) no momento que este
+README.md foi escrito tinha 1,770,213,201 sites na web. Vamos imaginar que cada requisição junto com o tempo de processar o texto demore 0,5 segundos. O usuário levaria 885.106.600,5 segundos ou aproximadamente 673 anos para ter uma resposta. Esperar tanto tempo assim é inviável. Uma tarefa que ocupa bem menos tempo e mesmo assim consegue varrer grandes volumes de dados é uma query de banco de dados. Se já houvesse uma base de dados com os dados tratados, devidamente indexados e cacheados, seria moleza devolver uma resposta rápida ao usuário. O [Google](https://www.google.com.br/) e o [DuckDuckGo](https://duckduckgo.com/), por exemplo, possuem ambos uma base de informações muito trabalhada sobre os sites existentes. Como eles conseguem isso? Vamos ver os componentes de software envolvidos:
+
+* [Servidor Web](servidor-web)
+* [Worker](worker)
+* [Orquestrador dos Workers](orquestrador-dos-workers)
+
+### Servidor Web
+O responsável por receber as requisições HTTP, pesquisar no banco de dados e responder ao usuário com as informações dos sites.
+
+### Worker
+Visita sites, extrai os links válidos e os retorna ao orquestrador junto com todo o html do site.
+
+### Orquestrador dos Workers
+Responsável por enviar novas urls para os workers trabalharem e por salvar no banco de dados os valores retornados pelos workers.
